@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, TextInput } from 'react-native';
 import io from 'socket.io-client';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { Actions } from 'react-native-router-flux';
 
 export default class Chat extends Component {
   constructor(props) {
@@ -11,8 +13,12 @@ export default class Chat extends Component {
     };
   }
 
+  goHome = () => {
+    Actions.home();
+  }
+
   componentDidMount() {
-    this.socket = io('http://192.168.1.17:3000');
+    this.socket = io('http://192.168.1.18:3000');
     this.socket.on('chat message', (msg) => {
       this.setState({ chatMessages: [...this.state.chatMessages, msg] });
     });
@@ -40,6 +46,9 @@ export default class Chat extends Component {
             this.setState({ chatMessage });
           }}
         />
+        <TouchableOpacity onPress={this.goHome}>
+          <Text>Home</Text>
+        </TouchableOpacity>
       </View>
     );
   }
